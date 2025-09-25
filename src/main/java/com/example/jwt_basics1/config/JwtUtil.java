@@ -44,17 +44,14 @@ public class JwtUtil {
                                 UserDetails userDetails) {
 
         Map<String, Object> claims = new HashMap<>();
+        claims.put("roles", userDetails.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
 
         return Jwts.builder()
-                .claims()
-                .add(claims)
-                .subject(userDetails.getUsername())
-                .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + JwtProperties.EXPIRATION_TIME))
-                .and()
-                .claim("roles", userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority)
-                        .collect(Collectors.toList()))
-                .claim("issuedBy", "learning JWT with Spring Security")
+                .setClaims(claims)
+                .setSubject(userDetails.getUsername())
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + JwtProperties.EXPIRATION_TIME))
                 .signWith(getKey())
                 .compact();
     }
