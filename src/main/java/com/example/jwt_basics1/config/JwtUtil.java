@@ -59,6 +59,15 @@ public class JwtUtil {
                 .compact();
     }
 
+    public String generateRefreshToken(UserDetails userDetails) {
+        return Jwts.builder()
+                .subject(userDetails.getUsername())
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(new Date(System.currentTimeMillis() + JwtProperties.REFRESH_EXPIRATION_TIME))
+                .signWith(getKey())
+                .compact();
+    }
+
 
     // Extract the expiration date from a JWT token and implicitly validate the token
     // This implementation implicitly validates the signature when extracting claims:

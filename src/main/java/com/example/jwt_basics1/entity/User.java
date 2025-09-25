@@ -33,5 +33,4 @@ public class User {
             uniqueConstraints = @UniqueConstraint(columnNames = {"USER_ID", "ROLE_ID"})
     )
     private List<Role> roles;
-
 }

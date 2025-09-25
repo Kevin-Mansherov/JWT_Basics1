@@ -16,6 +16,7 @@ public class AuthenticationService {
     private final CustomUserDetailsService customUserDetailsService;
     private final JwtUtil jwtUtil;
     private final PasswordEncoder passwordEncoder;
+    private final RefreshTokenService refreshTokenService;
 
 
     public AuthenticationResponse authenticate(AuthenticationRequest authenticationRequest) {
@@ -29,9 +30,13 @@ public class AuthenticationService {
 
         // generate the JWT token
         String jwtToken = jwtUtil.generateToken(authenticationRequest, userDetails);
+        String jwtRefreshToken = jwtUtil.generateRefreshToken(userDetails);
+
+        // store the refresh token
+        refreshTokenService.storeRefreshToken(jwtRefreshToken);
 
         // return the AuthenticationResponse object
-        return new AuthenticationResponse(jwtToken);
+        return new AuthenticationResponse(jwtToken, jwtRefreshToken);
     }
 }
 

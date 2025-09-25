@@ -12,6 +12,16 @@
 @contentType = application/json
 
 ### ===================================
+### Test refresh token endpoint
+### ===================================
+POST {{baseUrl}}/api/refresh-token
+Content-Type: {{contentType}}
+
+{
+    "refreshToken": eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc1ODgzMjEzNSwiZXhwIjoxNzU4ODMyNDg1fQ.f9vZPGLfOPYDC9zGZsDLGaIK2UBFImX-dk4804YBM-s
+}
+
+### ===================================
 ### STEP 1: LOGIN TO GET TOKENS
 ### ===================================
 
@@ -25,7 +35,11 @@ Content-Type: {{contentType}}
 }
 
 ### COPY THE TOKEN FROM RESPONSE ABOVE AND PASTE BELOW
-
+#result after running command 1.1
+#{
+#  "accessToken": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc1ODgzMjEzNSwiZXhwIjoxNzU4ODMyMTk1LCJyb2xlcyI6WyJST0xFX0FETUlOIiwiUk9MRV9VU0VSIl0sImlzc3VlZEJ5IjoibGVhcm5pbmcgSldUIHdpdGggU3ByaW5nIFNlY3VyaXR5In0.6NJ6bqj5k87cUmNZW07kmJso27Rphv4iNRbKnqD79WY",
+#  "refreshToken": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc1ODgzMjEzNSwiZXhwIjoxNzU4ODMyNDg1fQ.f9vZPGLfOPYDC9zGZsDLGaIK2UBFImX-dk4804YBM-s"
+#}
 ###
 
 ### 1.2 Login as User
@@ -45,7 +59,11 @@ Content-Type: {{contentType}}
 
 ### 2.1 Test Admin Access - PASTE ADMIN TOKEN BELOW - Authorization: Bearer PASTE_ADMIN_TOKEN_HERE
 GET {{baseUrl}}/api/protected-message-admin
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc1ODIxNTgzMCwiZXhwIjoxNzU4MjE2MTMwLCJyb2xlcyI6WyJST0xFX0FETUlOIiwiUk9MRV9VU0VSIl0sImlzc3VlZEJ5IjoibGVhcm5pbmcgSldUIHdpdGggU3ByaW5nIFNlY3VyaXR5In0.hc0PO2yhVkQuseDJ7a5cNWZtEmmq2GHnH8LQm8vIdko
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc1ODgzMjEzNSwiZXhwIjoxNzU4ODMyMTk1LCJyb2xlcyI6WyJST0xFX0FETUlOIiwiUk9MRV9VU0VSIl0sImlzc3VlZEJ5IjoibGVhcm5pbmcgSldUIHdpdGggU3ByaW5nIFNlY3VyaXR5In0.6NJ6bqj5k87cUmNZW07kmJso27Rphv4iNRbKnqD79WY
+#result after running command 2.1, access protected endpoint with admin token
+#Welcome to the Backend Server ADMIN home page
+#Response code: 200; Time: 90ms (90 ms); Content length: 45 bytes (45 B)
+
 
 Content-Type: {{contentType}}
 

@@ -58,7 +58,10 @@ public class SecurityConfig {
 
                 // Configuring authorization for HTTP requests
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("api/login/**").permitAll()
+                        //add the refresh token endpoint to be publicly accessible
+                        .requestMatchers("/api/refresh-token").permitAll()
+
+                        .requestMatchers("/api/login").permitAll()
 
                         .requestMatchers("api/protected-message-admin").hasAnyRole("ADMIN")
                         .requestMatchers("api/protected-message").hasAnyRole("USER", "ADMIN")

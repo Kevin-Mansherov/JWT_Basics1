@@ -25,9 +25,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String path = request.getRequestURI();
-        return path.startsWith("/api/login") ||
-                path.startsWith("/api/public");
+        return path.equals("/api/login") ||
+                path.equals("/api/refresh-token");
     }
+
+//    @Override
+//    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+//        String path = request.getRequestURI();
+//        return path.equals("/login") || path.equals("/refresh_token");
+//    }
 
 
     @Override
@@ -38,7 +44,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         // retrieve the Authorization header from the request
         String header = request.getHeader(JwtProperties.HEADER_STRING);
-        String token;
+        String token = null;
 
         // extract the token from the header if it's present
         // this is when sending the token in the Authorization header
@@ -54,9 +60,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         // Strict approach: if no token is provided, return 401 Unauthorized
         if (token == null) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.getWriter().write("Missing authentication token");
+            // If no token is provided, continue the filter chain without setting authentication
+            filterChain.doFilter(request, response);
             return;
+//            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+//            response.getWriter().write("Missing authentication token");
+//            return;
         }
 
         try {
