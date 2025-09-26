@@ -43,7 +43,7 @@ public class AuthenticationController {
 
         try{
             // Call the refreshToken method from the RefreshTokenService
-            AuthenticationResponse response = refreshTokenService.refreshToken(request.getRefreshToken());
+            AuthenticationResponse response = refreshTokenService.refreshAccessToken(request.getRefreshToken());
             return ResponseEntity.ok(response);
         }catch (RuntimeException e){
             System.out.println("Refresh token error: " + e.getMessage());

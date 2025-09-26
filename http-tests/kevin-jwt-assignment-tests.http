@@ -1,0 +1,51 @@
+@baseUrl = http://localhost:8080
+@contentType = application/json
+
+### ===================================
+### TEST LOGIN TO GET TOKENS
+### ===================================
+POST {{baseUrl}}/api/login
+Content-Type: {{contentType}}
+
+{
+  "username": "admin",
+  "password": "admin"
+}
+
+###result after successful login - got access token and refresh token
+#{
+#  "accessToken": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJST0xFX0FETUlOIiwiUk9MRV9VU0VSIl0sInN1YiI6ImFkbWluIiwiaWF0IjoxNzU4ODgwMDYzLCJleHAiOjE3NTg4ODAxMjN9.9Z03gnGxkIy3OGmh8gECUf3_ar_I3HNgSygiolmdztU",
+#  "refreshToken": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc1ODg4MDA2MywiZXhwIjoxNzU4ODgwNDEzfQ.WlanU2UihXOsJmc-zKy_xIwdaOQKy7DqxkhqGDMx3jg"
+#}
+
+### ===================================
+### STEP 2: TEST PROTECTED ENDPOINTS
+### ===================================
+
+GET {{baseUrl}}/api/protected-message-admin
+Authorization: Bearer
+#old token - expired
+#eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJST0xFX0FETUlOIiwiUk9MRV9VU0VSIl0sInN1YiI6ImFkbWluIiwiaWF0IjoxNzU4ODgwMDYzLCJleHAiOjE3NTg4ODAxMjN9.9Z03gnGxkIy3OGmh8gECUf3_ar_I3HNgSygiolmdztU
+
+#new token - valid -> after requesting a new access token using refresh token
+#eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJST0xFX0FETUlOIiwiUk9MRV9VU0VSIl0sInN1YiI6ImFkbWluIiwiaWF0IjoxNzU4ODgwMjE5LCJleHAiOjE3NTg4ODAyNzl9.5VQwEfDNANPJGf3p3yBjV3-05asD9ZDBLcYbG-7TI7Q
+
+#result after running command, access protected endpoint with admin token -> both old and new token worked
+#Welcome to the Backend Server ADMIN home page
+#Response code: 200; Time: 90ms (90 ms); Content length: 45 bytes (45 B)
+
+### ===================================
+### Test refresh token endpoint
+### ===================================
+POST {{baseUrl}}/api/refresh-token
+Content-Type: {{contentType}}
+
+{
+    "refreshToken": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc1ODg4MDA2MywiZXhwIjoxNzU4ODgwNDEzfQ.WlanU2UihXOsJmc-zKy_xIwdaOQKy7DqxkhqGDMx3jg"
+}
+
+#result - got new access token and new refresh token
+#{
+#  "accessToken": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJST0xFX0FETUlOIiwiUk9MRV9VU0VSIl0sInN1YiI6ImFkbWluIiwiaWF0IjoxNzU4ODgwMjE5LCJleHAiOjE3NTg4ODAyNzl9.5VQwEfDNANPJGf3p3yBjV3-05asD9ZDBLcYbG-7TI7Q",
+#  "refreshToken": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc1ODg4MDA2MywiZXhwIjoxNzU4ODgwNDEzfQ.WlanU2UihXOsJmc-zKy_xIwdaOQKy7DqxkhqGDMx3jg"
+#}

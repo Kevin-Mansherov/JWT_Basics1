@@ -12,22 +12,6 @@
 @contentType = application/json
 
 ### ===================================
-### Test refresh token endpoint
-### ===================================
-POST {{baseUrl}}/api/refresh-token
-Content-Type: {{contentType}}
-
-{
-    "refreshToken": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc1ODgzNDQ2MSwiZXhwIjoxNzU4ODM0ODExfQ.tSbxUQHGzyVFsw69gR6AXPhul_3tOZv7cBMtw9iHmfs"
-}
-
-#result - got new access token and new refresh token
-#{
-#  "accessToken": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJST0xFX0FETUlOIiwiUk9MRV9VU0VSIl0sInN1YiI6ImFkbWluIiwiaWF0IjoxNzU4ODM0NjY5LCJleHAiOjE3NTg4MzQ3Mjl9.ooHX-2JiZJpQEzHLqO90orOL8FFW-tm_xf53Mq2UPkc",
-#  "refreshToken": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc1ODgzNDY2OSwiZXhwIjoxNzU4ODM1MDE5fQ.4fJjD15_-djzVnjGjEiCokdAaE5-v0XtkyhIvOv2gy4"
-#}
-
-### ===================================
 ### STEP 1: LOGIN TO GET TOKENS
 ### ===================================
 
@@ -41,11 +25,7 @@ Content-Type: {{contentType}}
 }
 
 ### COPY THE TOKEN FROM RESPONSE ABOVE AND PASTE BELOW
-#result after running command 1.1
-#{
-#  "accessToken": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJST0xFX0FETUlOIiwiUk9MRV9VU0VSIl0sInN1YiI6ImFkbWluIiwiaWF0IjoxNzU4ODM0NDYxLCJleHAiOjE3NTg4MzQ1MjF9.1W5f1kQTsuz23lKPSHV0Xxqu79rAb1_vaCzWFC68kVw",
-#  "refreshToken": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc1ODgzNDQ2MSwiZXhwIjoxNzU4ODM0ODExfQ.tSbxUQHGzyVFsw69gR6AXPhul_3tOZv7cBMtw9iHmfs"
-#}
+
 ###
 
 ### 1.2 Login as User
@@ -65,14 +45,7 @@ Content-Type: {{contentType}}
 
 ### 2.1 Test Admin Access - PASTE ADMIN TOKEN BELOW - Authorization: Bearer PASTE_ADMIN_TOKEN_HERE
 GET {{baseUrl}}/api/protected-message-admin
-Authorization: Bearer
-#old token - expired
-#eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJST0xFX0FETUlOIiwiUk9MRV9VU0VSIl0sInN1YiI6ImFkbWluIiwiaWF0IjoxNzU4ODM0NDYxLCJleHAiOjE3NTg4MzQ1MjF9.1W5f1kQTsuz23lKPSHV0Xxqu79rAb1_vaCzWFC68kVw
-#new token - valid -> after requesting a new access token using refresh token
-#eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJST0xFX0FETUlOIiwiUk9MRV9VU0VSIl0sInN1YiI6ImFkbWluIiwiaWF0IjoxNzU4ODM0NjY5LCJleHAiOjE3NTg4MzQ3Mjl9.ooHX-2JiZJpQEzHLqO90orOL8FFW-tm_xf53Mq2UPkc
-#result after running command 2.1, access protected endpoint with admin token -> both old and new token worked
-#Welcome to the Backend Server ADMIN home page
-#Response code: 200; Time: 90ms (90 ms); Content length: 45 bytes (45 B)
+Authorization: Bearer PASTE_ADMIN_TOKEN_HERE
 
 
 Content-Type: {{contentType}}
