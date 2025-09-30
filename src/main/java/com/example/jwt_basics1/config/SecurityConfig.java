@@ -1,6 +1,8 @@
 package com.example.jwt_basics1.config;
 
+import com.example.jwt_basics1.service.CustomLogoutHandler;
 import com.example.jwt_basics1.service.CustomUserDetailsService;
+import com.example.jwt_basics1.service.TokenBlackListService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,6 +26,8 @@ public class SecurityConfig {
 
     private final JwtUtil jwtUtil;
     private final CustomUserDetailsService userDetailsService;
+    private final CustomLogoutHandler customLogoutHandler;
+    private final TokenBlackListService tokenBlackListService;
 
     @Bean
     public static PasswordEncoder passwordEncoder() {
@@ -48,7 +52,7 @@ public class SecurityConfig {
                 })
 
 
-                // adding a custom JWT authentication filter
+                // adding a custom JWT authentication filterד
                 .addFilterBefore(new JwtAuthenticationFilter(jwtUtil, userDetailsService),
                         UsernamePasswordAuthenticationFilter.class)
 
@@ -66,7 +70,14 @@ public class SecurityConfig {
                         .requestMatchers("api/protected-message-admin").hasAnyRole("ADMIN")
                         .requestMatchers("api/protected-message").hasAnyRole("USER", "ADMIN")
 
-                        .anyRequest().authenticated());
+                        .anyRequest().authenticated()
+                )
+                .logout(logout -> logout
+                        .logoutUrl("/api/logout")
+                        .logoutSuccessHandler(customLogoutHandler)
+                        .invalidateHttpSession(true)
+                        .clearAuthentication(true)
+                        .permitAll());
 
         return http.build();
     }

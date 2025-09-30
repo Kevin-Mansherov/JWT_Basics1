@@ -29,13 +29,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 path.equals("/api/refresh-token");
     }
 
-//    @Override
-//    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-//        String path = request.getRequestURI();
-//        return path.equals("/login") || path.equals("/refresh_token");
-//    }
-
-
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request,
                                     @NonNull HttpServletResponse response,
@@ -63,9 +56,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             // If no token is provided, continue the filter chain without setting authentication
             filterChain.doFilter(request, response);
             return;
-//            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-//            response.getWriter().write("Missing authentication token");
-//            return;
         }
 
         try {
@@ -74,7 +64,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             // load user details using the extracted username
             UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
 
-            // validate the token with the loaded user details
+            // validate the token with the loaded user details, and check in the blacklist.
             if (jwtUtil.validateToken(token, userDetails)) {
                 // create an authentication object and set it in the Security Context
                 UsernamePasswordAuthenticationToken authentication =

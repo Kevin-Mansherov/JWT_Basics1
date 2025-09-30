@@ -9,4 +9,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class RefreshTokenRequest {
     private String refreshToken;
+    private String ip; // New field to store client IP address
 }

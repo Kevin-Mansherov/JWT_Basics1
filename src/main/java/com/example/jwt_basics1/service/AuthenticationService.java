@@ -9,6 +9,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
@@ -28,9 +30,15 @@ public class AuthenticationService {
             throw new AuthenticationServiceException("Invalid credentials");
         }
 
+        String jwtId = UUID.randomUUID().toString();
+
+        // Store the client IP address with the refresh token
+        String clientIp = authenticationRequest.getIp();
+        refreshTokenService.storeRefreshTokenIp(jwtId,clientIp);
+
         // generate the JWT token
-        String jwtToken = jwtUtil.generateToken(authenticationRequest, userDetails);
-        String jwtRefreshToken = jwtUtil.generateRefreshToken(userDetails);
+        String jwtToken = jwtUtil.generateToken(authenticationRequest, userDetails,jwtId);
+        String jwtRefreshToken = jwtUtil.generateRefreshToken(userDetails,jwtId);
 
 
         // return the AuthenticationResponse object
