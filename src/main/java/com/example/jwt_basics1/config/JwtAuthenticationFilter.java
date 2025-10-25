@@ -1,6 +1,7 @@
 package com.example.jwt_basics1.config;
 
 import com.example.jwt_basics1.service.CustomUserDetailsService;
+import com.example.jwt_basics1.service.TokenBlackListService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,6 +22,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     final private JwtUtil jwtUtil;
     final private CustomUserDetailsService customUserDetailsService;
+//    private final TokenBlackListService tokenBlackListService;
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
